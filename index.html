@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Sign up / Login Form</title>
+  <link rel="stylesheet" href="./style.css">
+	<link rel="manifest" href="site.webmanifest">
+	  <script>
+		if('serviceWorker' in navigator){
+			window.addEventListener('load',function(){
+				navigator.serviceWorker.register("/",{scope:"/"}).then(function(registration){
+					console.log('ServiceWorker registration successfully with scope',registration.scope);
+				}, function(err){
+					console.log('ServiceWorker registration failed',err);
+				});
+			})
+		}
+		var CACHE_NAME = 'my-site-cache-v1';
+		var urlsToCache = [
+		 '/',
+		  'index.html', /* '/styles/main.css', '/script/main.js' */
+		  ];
+		   self.addEventListener('install', function (event) { // Perform install steps
+			event.waitUntil(
+				caches.open(CACHE_NAME)
+				.then(function (cache) {
+					console.log('Opened cache');
+					return cache.addAll(urlsToCache);
+				})) });
+		self.addEventListener('fetch', function(event){
+			event.respondWith(
+				caches.match(event.request)
+				.then(function(response){
+					if(response){
+						return response;
+					}
+					return fetch(event.request);
+				})
+			);
+		});
+	  </script>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slide Navbar</title>
+	<link rel="stylesheet" type="text/css" href="slide navbar style.css">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form>
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input type="text" name="txt" placeholder="User name" required="">
+					<input type="email" name="email" placeholder="Email" required="">
+					<input type="password" name="pswd" placeholder="Password" required="">
+					<button>Sign up</button>
+				</form>
+			</div>
+
+			<div class="login">
+				<form>
+					<label for="chk" aria-hidden="true">Login</label>
+					<input type="email" name="email" placeholder="Email" required="">
+					<input type="password" name="pswd" placeholder="Password" required="">
+					<button>Login</button>
+				</form>
+			</div>
+	</div>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
